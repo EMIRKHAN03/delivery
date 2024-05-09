@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/zakaz.css" th:href="@{/css/zakaz.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/ordering.css" th:href="@{/css/ordering.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="div4">
+    <div class="nav-header1">
+        <div class="component-11">
+            <div class="component-1-inner"></div>
+            <div class="search1">Search</div>
+            <img class="vector-icon2" alt="" src="/images/vector.svg" />
+
+            <div class="line-div"></div>
+        </div>
+        <div class="delivery2" id="deliveryText">Delivery</div>
+        <div class="paper-plane-11"></div>
+        <img class="nav-header-item" alt="" src="/images/vector-2.svg" />
+    </div>
+    <div class="navigation-bar1">
+        <div class="account2" id="accountText">
+            <a class="account3" th:href = "@{/api/v1/authenticated/client}">Account</a>
+        </div>
+        <div class="services-group">
+            <div class="services1">
+                <a th:href="@{/api/v1/autehenticated/zakaz/all}">Bin</a>
+            </div>
+            <img
+                    class="akar-iconschevron-down2"
+                    alt=""
+                    src="/images/akariconschevrondown1.svg"
+            />
+        </div>
+        <div class="menu-group">
+            <div class="services1"><a th:href="@{/api/v1/distributor/all}">
+                Menu
+            </a></div>
+            <img
+                    class="akar-iconschevron-down2"
+                    alt=""
+                    src="/images/akariconschevrondown1.svg"
+            />
+        </div>
+    </div>
+    <div class="frame-div">
+        <div class="carbonlogin-group">
+            <img
+                    class="carbonlogin-icon1"
+                    alt=""
+                    src="/images/carbonlogin.svg"
+            />
+
+            <div class="login1"><a style = "text-underline: none" th:href="@{/auth/login}">Login</a>
+            </div>
+        </div>
+    </div>
+    <img
+            class="converted-2-icon2"
+            alt=""
+            src="/images/17372-converted-2@2x.png"
+    />
+    <div class="child6" >
+        <img class="kfc1" th:src="@{/{image}(image=${distributor.getPhoto()})}" alt="no image" />
+        <b class="kf" th:text="${distributor.getName()}"></b>
+
+        <div class="frame-parent">
+
+            <div class="frame-group">
+
+                <div class="vector-parent">
+                    <div class="rating-area">
+                        <input type="radio" id="star-5" name="rating" value="5">
+                        <label for="star-5" title="Оценка «5»"></label>
+                        <input type="radio" id="star-4" name="rating" value="4">
+                        <label for="star-4" title="Оценка «4»"></label>
+                        <input type="radio" id="star-3" name="rating" value="3">
+                        <label for="star-3" title="Оценка «3»"></label>
+                        <input type="radio" id="star-2" name="rating" value="2">
+                        <label for="star-2" title="Оценка «2»"></label>
+                        <input type="radio" id="star-1" name="rating" value="1">
+                        <label for="star-1" title="Оценка «1»"></label>
+
+                    </div>
+                </div>
+                <div class="div6" th:text = "${total +' *****' + ', '+ distributor.getPoint().size() + ' людей проголосовали!'}">
+                </div>
+                <form style="margin-left: 55px" th:action="@{/api/v1/distributor/review/{id}(id=${distributor.getId()})}" method="POST">
+                    <input class="ball" type="number" id="review" name="review" placeholder="0-10" >
+                    <button class="point" type="submit">O</button>
+                </form>
+
+            </div>
+            <img class="frame-child" alt="" src="/images/vector-1.svg" />
+            <div class="frame-container">
+                <div class="mins-parent">
+                    <div class="mins">30Mins</div>
+                    <img class="vector-icon7" alt="" src="/images/vector5.svg" />
+                </div>
+                <div class="div7">Время доставки</div>
+            </div>
+        </div>
+    </div>
+    <img class="child7" alt="" src="/images/vector-21.svg" />
+
+    <img class="child8" alt="" src="/images/vector-21.svg" />
+
+    <img class="child9" alt="" src="/images/vector-21.svg" />
+
+    <img class="child10" alt="" src="/images/vector-5.svg" />
+
+
+
+
+
+    <figure class="rectangle-container" th:each="good:${goods}">
+        <figcaption>
+            <img class="frame-item" th:src="@{/{image}(image=${good.getPhoto()})}" alt="no image"/>
+
+            <div class="div8" th:text="${good.getName()}">Шеф бургер</div>
+            <div  th:text="${good.getDescription()}">11</div>
+            <div class="material-symbolsadd-circle-ou"></div>
+            <div class="frame-parent1">
+                <div class="vector-group">
+                    <img class="vector-icon8" alt="" src="/images/vector6.svg" />
+
+                    <div class="c" th:text="${good.getPrice()+' сом'}">200 c</div>
+                </div>
+                <form action="#" th:action="@{/api/v1/goods/zakaz/{goods_id}/{distributor_id}(goods_id=${good.getId()}, distributor_id = ${distributor.getId()})}" method="POST">
+                    <button type="submit" class="btn material-symbolsadd-circle-ou-icon"><i class="fa fa-plus-circle " style="font-size:30px"></i></button>
+
+                </form>
+
+
+            </div>
+        </figcaption>
+
+    </figure>
+    <div class="group-div">
+        <div class="group-child"></div>
+        <div class="group-item"></div>
+    </div>
+    <b class="b9">Разделы</b>
+    <div class="div12">
+        <p class="p1">Комбо</p>
+    </div>
+    <div class="div13">
+        <p class="p1">Баскеты</p>
+    </div>
+    <div class="component-2">
+        <img
+                class="akar-iconschevron-down4"
+                alt=""
+                src="/images/akariconschevrondown.svg"
+        />
+
+        <div class="div14">Курица</div>
+    </div>
+    <div class="div15">
+        <p class="p1">Сендвичи</p>
+    </div>
+    <div class="div16">Гарниры</div>
+    <b class="b10">Самое популярное</b>
+    <div class="container">
+    </div>
+
+    <div id="icon" onclick="toggleDiv()"><span id="ico" class="first-icon"></span></div>
+    <div class="rectangle-div" id="myDiv" style="display: none">
+        <div class="b11">
+            <b>Ваш заказ</b>
+            <br>
+            <br>
+            <br>
+            <div th:each="zakazGood : ${zakazGoods}">
+                <div style="font-size: 20px" th:text="${zakazGood.getGoods().getName() +', price is'+ zakazGood.getGoods().getPrice() + ' som '}">nothing</div>
+                <br>
+            </div>
+        </div>
+        <button class="wrapper section__button section__button1">Make zakaz</button>
+    </div>
+    <form action="#" th:object="${zakazDto}" th:action="@{/api/v1/authenticated/zakaz/make/{distributor_id}(distributor_id = ${distributor.getId()})}" method="POST">
+        <div class="modal modal1">
+            <div class="modal__main">
+                <div class="vector-parent4">
+                    <img class="vector-icon16" alt="" src="/images/vector9.svg" />
+                    <div class="div35">Адрес доставки</div>
+                </div>
+
+                <div class="modal__container">
+                    <div class="vector-parent5">
+                        <img class="vector-icon16" alt="" src="/images/vector11.svg" />
+                        <div class="div55">
+                            <input style="color: #212529;background: transparent;border: none;" type="text" id="address3"  th:field="*{address}" name="address" placeholder="Enter your address" ></div>
+                    </div>
+                    <b class="b6">Способ оплаты</b>
+                    <img
+                            class="mdicredit-card-outline-icon"
+                            alt=""
+                            src="/images/mdicreditcardoutline.svg"
+                    />
+                    <div class="child11"></div>
+                    <div class="div57">
+                        <label>
+                            <select class="paym"  th:field="*{payment}" >
+                                <option th:each="payment : ${payments}" th:value="${payment}" th:text="${payment}">
+                                </option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <button class="modal__btn" type="submit">Заказать</button>
+                <button class="modal__close" >&#10006;</button>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="footer1">
+        <div class="delivery3">Delivery</div>
+        <img class="converted-2-icon3" alt="" src="/images/17372-converted-2@2x.png">
+        <div class="group">
+            <div class="c">О нас</div>
+            <div class="c">Доставка</div>
+            <div class="c">Поддержка</div>
+        </div>
+        <div class="contact-group">
+            <div class="c">Contact:</div>
+            <b class="b12">+996 559 717 933</b>
+        </div>
+    </div>
+    <div class="facebook-icon-parent">
+        <img
+                class="material-symbolsadd-circle-ou"
+                alt=""
+                src="/images/facebook-icon.svg"
+        />
+
+        <img class="vector-icon13" alt="" src="/images/vector8.svg" />
+
+        <img class="twitter-icon1" alt="" src="/images/twitter-icon.svg" />
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/icon.js}"></script>
+<script>const modalController = ({modal, btnOpen, btnClose, time = 300}) => {
+    const buttonElems = document.querySelectorAll(btnOpen);
+    const modalElem = document.querySelector(modal);
+
+    modalElem.style.cssText = `
+        display: flex;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity ${time}ms ease-in-out;
+      `;
+
+    const closeModal = event => {
+        const target = event.target;
+
+        if (
+            target === modalElem ||
+            (btnClose && target.closest(btnClose)) ||
+            event.code === 'Escape'
+        ) {
+
+            modalElem.style.opacity = 0;
+
+            setTimeout(() => {
+                modalElem.style.visibility = 'hidden';
+            }, time);
+
+            window.removeEventListener('keydown', closeModal);
+        }
+    }
+
+    const openModal = () => {
+        modalElem.style.visibility = 'visible';
+        modalElem.style.opacity = 1;
+        window.addEventListener('keydown', closeModal)
+    };
+
+    buttonElems.forEach(btn => {
+        btn.addEventListener('click', openModal);
+    });
+
+    modalElem.addEventListener('click', closeModal);
+};
+
+modalController({
+    modal: '.modal1',
+    btnOpen: '.section__button1',
+    btnClose: '.modal__close',
+});
+
+modalController({
+    modal: '.modal2',
+    btnOpen: '.section__button2',
+    btnClose: '.modal__close'
+});</script>
+</body>
+</html>

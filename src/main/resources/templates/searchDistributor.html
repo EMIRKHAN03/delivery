@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:each="good:${goodsList}">
+    <div th:text="${good.getName() + ', '+ good.getPrice()}">
+    </div>
+    <form action="#" th:action="@{/api/v1/goods/zakaz/{goods_id}/{distributor_id}(goods_id=${good.getId()}, distributor_id = ${distributor.getId()})}" method="POST">
+        <button type="submit">Add to Zakaz</button>
+    </form>
+
+</div>
+
+<div th:each="zakazGood : ${zakazGoods}">
+    <div th:text="${zakazGood.getGoods().getPrice() +  zakazGood.getGoods().getName()}">
+        nothing
+    </div>
+
+</div>
+
+
+<form action="#" th:action="@{/api/v1/authenticated/zakaz/make}" method="POST">
+    <select th:field="*{payments}">
+        <option th:each="payment : ${payments}" th:value="${payment}" th:text="${payment}">
+
+        </option>
+    </select>
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" placeholder="Enter your address" >
+    <button type="submit">Make zakaz</button>
+</form>
+
+
+</body>
+</html>

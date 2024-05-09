@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/ordering.css" th:href="@{/css/ordering.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="div34">
+    <div class="nav-header2">
+        <div class="component-12">
+            <div class="component-1-child1"></div>
+            <div class="search2">Search</div>
+            <img class="vector-icon15" alt="" src="/images/vector10.svg" />
+
+            <div class="component-1-child2"></div>
+        </div>
+        <div class="delivery4" id="deliveryText">Delivery</div>
+        <div class="paper-plane-12"></div>
+        <img class="nav-header-inner" alt="" src="/images/vector-2.svg" />
+    </div>
+    <div class="navigation-bar2">
+        <div class="account4">
+            <a  th:href = "@{/api/v1/authenticated/client}" class="account5">Account</a>
+        </div>
+        <div class="services-container">
+            <div class="services2">
+                <a th:href="@{/api/v1/autehenticated/zakaz/all}">Bin</a>
+            </div>
+            <img
+                    class="akar-iconschevron-down6"
+                    alt=""
+                    src="/images/akariconschevrondown3.svg"
+            />
+        </div>
+        <div class="menu-container">
+            <div class="services2">
+                <a th:href="@{/api/v1/distributor/all}">Menu</a>
+            </div>
+            <img
+                    class="akar-iconschevron-down6"
+                    alt=""
+                    src="//akariconschevrondown4.svg"
+            />
+        </div>
+    </div>
+
+    <div class="inner3">
+        <div class="carbonlogin-parent1">
+            <img
+                    class="carbonlogin-icon3"
+                    alt=""
+                    src="/images/carbonlogin.svg"
+            />
+
+            <div class="login2">
+                <a style = "text-underline: none" th:href="@{/auth/login}">Login</a></div>
+        </div>
+    </div>
+    <img
+            class="converted-2-icon4"
+            alt=""
+            src="/images/17372-converted-2@2x.png"
+    />
+
+    <div th:each="zakaz:${zakazList}">
+
+        <div class="frame-parent4">
+            <div class="frame-parent5">
+                <div class="parent1">
+                    <div class="div37">Корзина</div>
+                    <div class="div38" th:text="${zakaz.getQuantity()+' продукт'}"></div>
+                </div>
+                <div class="frame-parent6">
+                    <div class="kfc-group">
+                        <div class="kfc2" th:text="${zakaz.getZakazStatus()}"></div>
+                        <div class="frame-parent7">
+                            <div class="parent2" th:each="zakazGood : ${zakazGoodService.findByZakaz(zakaz)}">
+                                <div class="div37" th:text="${zakazGood.getGoods().getName()}">nothing</div>
+                                <div class="div40" th:text="${zakazGood.getGoods().getPrice()+'som'}">0</div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="frame-wrapper1">
+                        <div class="frame-child2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="frame-parent9">
+                <div class="parent5">
+                    <div class="div37">Стоимость доставки</div>
+                    <div class="div37">65 с</div>
+                </div>
+            </div>
+            <div class="parent7">
+                <div class="div37">Итого</div>
+                <div class="div37" th:text="${zakaz.getTotalPrice()}">280 с</div>
+            </div>
+            <div class="wrapper4">
+                <form action="#" th:action="@{/api/v1/authenticated/zakaz/dead/{id}(id=${zakaz.getId()})}" method="POST">
+                            <button type="submit" class="div37">Отменить!</button>
+                </form>
+            </div>
+            <div th:if="${zakaz.getDeliver() == null}">
+                <div>Not taken by deliver</div>
+            </div>
+
+        </div>
+    </div>
+    <div  th:each="zakaz:${zakazList}">
+        <div class="profile" th:unless="${zakaz.getDeliver() == null}">
+            <div class="photo"><img th:src="@{/{image}(image=${zakaz.getDeliver().getPhoto()})}"/></div>
+            <div class="content">
+                <div class="text">
+                    <h3 th:text="${zakaz.getDeliver().getName()}">Kelly Chen</h3>
+                    <h4 style="top: 36px;position: absolute;" th:text="${zakaz.getDeliver().number}"></h4>
+                    <h6>Deliver</h6>
+                </div>
+                <div class="btn"><span></span></div>
+            </div>
+            <div class="box"><i class="fa fa-codepen"></i><i class="fa fa-facebook"></i><i class="fa fa-github"></i><i class="fa fa-tumblr"></i><i class="fa fa-twitter"></i></div>
+        </div>
+<!--        <div class="deliver" th:unless="${zakaz.getDeliver() == null}">-->
+<!--            <h4>Deliver</h4>-->
+<!--            <div th:text="${zakaz.getDeliver().getName() + ', number is ' + zakaz.getDeliver().number}">Not taken by deliver</div>-->
+<!--        </div>-->
+    </div>
+
+
+
+    <div class="footer2">
+        <div class="delivery5">Delivery</div>
+        <img
+                class="converted-2-icon5"
+                alt=""
+                src="/images/17372-converted-2@2x.png"
+        />
+
+        <div class="parent8">
+            <div class="div37">О нас</div>
+            <div class="div37">Доставка</div>
+            <div class="div37">Поддержка</div>
+        </div>
+        <div class="contact-container">
+            <div class="div37">Contact:</div>
+            <b class="b5">+996 559 717 933</b>
+        </div>
+    </div>
+    <div class="inner4">
+        <div class="carbonlogin-parent1">
+            <img
+                    class="carbonlogin-icon3"
+                    alt=""
+                    src="/images/carbonlogin.svg"
+            />
+
+            <div class="login2">Login</div>
+        </div>
+    </div>
+
+
+
+    <div class="facebook-icon-container">
+        <img class="facebook-icon2" alt="" src="/images/facebook-icon.svg" />
+
+        <img class="vector-icon19" alt="" src="/images/vector8.svg" />
+
+        <img class="twitter-icon2" alt="" src="/images/twitter-icon2.svg" />
+    </div>
+</div>
+<script>
+    (function() {
+        $('.btn').click(function() {
+            $(this).toggleClass('active');
+            return $('.box').toggleClass('open');
+        });
+    }).call(this);
+</script>
+</body>
+</html>

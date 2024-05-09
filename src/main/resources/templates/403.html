@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<link rel="stylesheet" type="text/css" media="all"
+      href="../../static/css/403.css" th:href="@{/css/403.css}" />
+
+<!--
+VIEW IN FULL SCREEN MODE
+FULL SCREEN MODE: http://salehriaz.com/404Page/404.html
+
+DRIBBBLE: https://dribbble.com/shots/4330167-404-Page-Lost-In-Space
+-->
+
+<body class="bg-purple">
+
+<div class="stars">
+    <div class="custom-navbar">
+        <div class="brand-logo">
+            DLETE
+        </div>
+    </div>
+    <div class="central-body">
+        <img class="image-404" src="/images/403.webp" width="300px">
+        <div class="starter-template">
+            <div th:inline="text">Hello '[[${#httpServletRequest.remoteUser}]]', you do not have permission to access this page.</div>
+        </div>
+        <a th:href="${'/api/v1/distributor/all'}" class="btn-go-home" target="_blank">GO BACK HOME</a>
+    </div>
+    <div class="objects">
+        <img class="object_rocket"  src="/images/403.webp" width="40px">
+        <div class="earth-moon">
+            <img class="object_earth" src="http://salehriaz.com/404Page/img/earth.svg" width="100px">
+            <img class="object_moon" src="http://salehriaz.com/404Page/img/moon.svg" width="80px">
+        </div>
+        <div class="box_astronaut">
+            <img class="object_astronaut" src="http://salehriaz.com/404Page/img/astronaut.svg" width="140px">
+        </div>
+    </div>
+    <div class="glowing_stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+
+    </div>
+
+</div>
+
+</body>
+
+</body>
+</html>

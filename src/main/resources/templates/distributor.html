@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/home.css" th:href="@{/css/home.css}" />
+    <title>Distributor List</title>
+</head>
+<body>
+<div class="div">
+    <div class="nav-header">
+        <div class="component-1">
+            <div class="component-1-child"></div>
+            <div class="search">Search</div>
+            <img class="vector-icon" alt="" src="/images/vector.svg" />
+
+            <div class="component-1-item"></div>
+        </div>
+        <div class="delivery">Delivery</div>
+        <div class="paper-plane-1"></div>
+        <img class="nav-header-child" alt="" src="/images/vector-2.svg" />
+    </div>
+    <div class="navigation-bar">
+        <div class="account" id="accountText">
+            <a th:href = "@{/api/v1/authenticated/client}" style = "text-underline: none" class="p">Account</a>
+        </div>
+        <div class="services-parent">
+            <div class="services">
+                <a style = "text-underline: none" th:href = "@{/api/v1/authenticated/zakaz/all}">Bin</a>
+            </div>
+            <img
+                    class="akar-iconschevron-down"
+                    alt=""
+                    src="/images/akariconschevrondown.svg"
+            />
+        </div>
+        <div class="menu-parent">
+            <div class="services"></div>
+            <a style = "text-underline: none" th:href="@{/api/v1/distributor/all}">
+                Menu
+            </a>
+            <img
+                    class="akar-iconschevron-down"
+                    alt=""
+                    src="/images/akariconschevrondown1.svg"
+            />
+        </div>
+    </div>
+    <div class="inner">
+        <div class="carbonlogin-parent">
+            <img class="carbonlogin-icon" alt="" src="/images/carbonlogin.svg" />
+
+            <div class="login"><a style = "text-underline: none" th:href="@{/auth/login}">Login</a>
+            </div>
+        </div>
+    </div>
+    <img class="icon" alt="" src="/images/5739256-1@2x.png" />
+
+    <img
+            class="take-away-rafiki-1"
+            alt=""
+            src="/images/take-awayrafiki-1.svg"
+    />
+
+    <div class="waiters-rafiki-1">
+        <img
+                class="freepik-shadow-inject-16-icon"
+                alt=""
+                src="/images/freepikshadowinject16.svg"
+        />
+
+        <img
+                class="freepik-character-1-inject-1-icon"
+                alt=""
+                src="/images/freepikcharacter1inject16.svg"
+        />
+
+        <img
+                class="freepik-character-2-inject-1-icon"
+                alt=""
+                src="/images/freepikcharacter2inject16.svg"
+        />
+
+        <b class="b">Лучшее качество</b>
+    </div>
+    <b class="b1">Доставка в городе Бишкек</b>
+    <b class="b2">Легко заказать</b>
+    <b class="b3">Быстрая доставка</b>
+    <b class="b4">
+        <p class="p">Лучшее качество</p>
+    </b>
+    <b class="b5">Мы рекомендуем</b>
+    <img class="converted-2-icon" alt="" src="/images/17372-converted-2@2x.png">
+    <figure class="kfc" th:each="distributor:${distributorList}">
+        <a style = "text-underline: none" th:href="@{/api/v1/distributor/{id} (id = ${distributor.getId()})}">
+            <img class="item" th:src="@{/{image}(image=${distributor.getPhoto()})}" alt=""/>
+            <figcaption class="ttt" th:text="${distributor.getName()}" ></figcaption>
+        </a>
+    </figure>
+    <div class="footer">
+        <div class="delivery1">Delivery</div>
+        <img
+                class="converted-2-icon1"
+                alt=""
+                src="/images/17372-converted-2@2x.png"
+        />
+
+        <div class="parent">
+            <div class="contact">О нас</div>
+            <div class="contact">Доставка</div>
+            <div class="contact">Поддержка</div>
+        </div>
+        <img class="facebook-icon" alt="" src="/images/facebook-icon.svg" />
+
+        <img class="vector-icon1" alt="" src="/images/vector1.svg" />
+
+        <img class="twitter-icon" alt="" src="/images/twitter-icon.svg" />
+    </div>
+    <div class="contact-parent">
+        <div class="contact">Contact:</div>
+        <b class="b8">+996 559 717 933</b>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,355 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/style.css" th:href="@{/css/style.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+
+
+<header>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white" id="mainNav">
+        <div class="container">
+            <div class="brand">
+                <a class="navbar-brand">Delivery</a>
+                <img src="/images/pic.png">
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" th:href="@{/api/v1/}" id="ServiceDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Services
+                            </a>
+
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" th:href="@{/api/v1/distributor/all}" id="MenuDropdown" >
+                                Menu
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-black" href="#">Account</a></li>
+                    </ul>
+                </div>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+                    <a th:href="@{/auth/login}" class="logout-btn" type="submit"><i class="bi bi-box-arrow-in-right me-2"></i>Logout
+                    </a>
+                </form>
+
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+
+<main>
+    <div class="container mt-3">
+        <p class="text-black fs-3 fw-bolder text-lg-start  text-center">Admin panel</p>
+        <hr class="hr">
+
+        <div class="request">
+            <p class="title_text">Requests</p>
+            <div class="table_overflow">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Approve</th>
+                        <th>Decline</th>
+                    </tr>
+                    <tr th:each="request:${requests}">
+                        <td th:text="${request.getClient().getId()}"></td>
+                        <td th:text="${request.getClient().getName()}"></td>
+                        <td th:text="${request.getRequestStatus()}"></td>
+                        <td th:text="${request.getLocalDate()}"></td>
+                        <td th:text="${request.getLocalTime()}"></td>
+<!--                        <p th:text="${request.getLocalDate() + request.getLocalTime()}"></p>-->
+                        <td>
+                            <form th:action="@{/api/v1/admin/request/approve/{id}(id=${request.getId()})}"
+                                  method="POST">
+                                <button type="submit" class="logout-btn bg-success">Approve!</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form th:action="@{/api/v1/admin/request/decline/{id}(id=${request.getId()})}"
+                                  method="POST">
+                                <button type="submit" class="logout-btn bg-danger">Decline!</button>
+                            </form>
+                        </td>
+
+
+                    </tr>
+
+                </table>
+
+
+            </div>
+
+            <hr>
+
+            <!--        Add destributor-->
+            <div class="add_destributor">
+
+                <p class="title_text">Add distributor</p>
+                <form th:action="@{/api/v1/admin/distributor/create}" enctype="multipart/form-data" method="POST">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="address">Address:</label>
+                                <input type="text" class="form-control" name="address" id="address">
+                            </div>
+                            <div class="form-group">
+                                <label for="file">File:</label>
+                                <input type="file" class="form-control form-control-sm" id="file" name="image"
+                                       aria-describedby="file"
+                                       aria-label="Upload">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="logout-btn">Create distributor</button>
+                </form>
+            </div>
+            <!--        Add destributor end-->
+
+            <hr>
+
+            <!--        Add goods-->
+            <div class="destributors mt-5">
+                <p class="title_text">Distributors</p>
+
+                <div class="destributor" th:each="distributor:${distributors}">
+                    <div class="info">
+                        <img th:src="@{/{image}(image=${distributor.getPhoto()})}" style="width: 30%" alt="No photo">
+                        <p class="destributor_name" th:text="${distributor.getName()}"></p>
+                        <p class="destributor_desc" th:text="${distributor.getDescription()}"></p>
+                        <p class="destributor_adress" th:text="${distributor.getAddress()}"></p>
+                    </div>
+                    <form th:action="@{/api/v1/admin/goods/create/{distributor_id} (distributor_id = ${distributor.getId()})}" enctype="multipart/form-data"  method="POST">
+                        <button  type="button" class="logout-btn" data-bs-toggle="modal" data-bs-target="#addGoods">
+                            Add goods
+                        </button>
+                        <br>
+                        <br>
+
+                    </form>
+                    <div class="goods">
+                        <div class="info" style="margin-left: 3%" th:each="good :${goodsService.findByDistributor(distributor)}">
+                            <img th:src="@{/{image}(image=${good.getPhoto()})}" style="width: 20%" alt="No photo">
+                            <p class="destributor_name" th:text="${good.getName()}"></p>
+                            <p class="good-price" th:text="${good.getPrice() + ' сом '}"></p>
+                            <p class="good_desc" th:text="${good.getDescription}"></p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!--        Add goods end-->
+
+            <hr>
+
+            <!--        statistics-->
+            <div class="statistics mt-5">
+                <p class="title_text">Statistics</p>
+                <p class="title_text" th:text="${'Number of delivers is  ' + deliver_number}"></p>
+                <div class="table_overflow">
+                    <table class="table">
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Number</th>
+                            <th>Delievered</th>
+                            <th>Salary</th>
+                        </tr>
+                        <tr th:each="deliver:${delivers}">
+                            <td th:text="${deliver.getId()}">1</td>
+                            <td><img th:src="@{/{image}(image=${deliver.getPhoto()})}" style="width: 20%" alt="No"></td>
+                            <td th:text="${deliver.getName()}"></td>
+                            <td th:text="${deliver.getUsername()}"></td>
+                            <td th:text="${deliver.getNumber()}"></td>
+                            <td th:text="${number_zakaz}"></td>
+                            <td th:text="${salary} + '$'"></td>
+                        </tr>
+
+                    </table>
+
+
+                </div>
+                <!--        statistics end-->
+
+                <!--        Promote deliver-->
+                <div class="Promote mt-5">
+                    <p class="title_text">Promote deliver</p>
+                    <div class="table_overflow">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Number</th>
+                                <th>Role</th>
+                                <th>Button</th>
+                            </tr>
+                            <tr th:each="deliver:${delivers}" r>
+                                <td th:text="${deliver.getId()}"></td>
+                                <td th:text="${deliver.getName()}"></td>
+                                <td th:text="${deliver.getNumber()}"></td>
+                                <td th:text="${deliver.getRoles()}"></td>
+                                <td>
+                                    <form method="post"
+                                          th:action="@{/api/v1/admin/make/admin/{deliver_id} (deliver_id = ${deliver.getId()})}">
+                                        <button type="submit" class="logout-btn bg-success">Submit</button>
+                                    </form>
+                                </td>
+
+
+                            </tr>
+
+                        </table>
+
+
+                    </div>
+                    <!--        Promote deliver end-->
+
+                    <hr>
+
+                    <div class="create_admin">
+                        <p class="title_text">Create admin</p>
+
+                        <form method="post" th:action="@{/api/v1/admin/create}">
+                            <div class="form-group">
+                                <label for="username1">Username:</label>
+                                <input type="text" id="username1" name="username" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password1">Password:</label>
+                                <input type="password" id="password1" name="password" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="firstName2">First Name:</label>
+                                <input type="text" id="firstName2" name="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="number">Number:</label>
+                                <input type="text" id="number" name="number" class="form-control" required>
+                            </div>
+                            <button type="submit" class="logout-btn mt-3">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer class="py-4 mt-5">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+        <div class="col-lg-6 col-md-6  d-flex align-items-center">
+            <a class="navbar-brand" href="#">Delivery</a>
+            <img src="assets/img/pic.png">
+
+            <ul class="ul_list d-sm-block d-lg-flex d-md-flex d-xl-flex d-xxl-flex align-items-center">
+                <li class="me-3"><a href="#" class="footer_text">About</a></li>
+                <li class="me-3"><a href="#" class="footer_text">Delivery</a></li>
+                <li class="me-3"><a href="#" class="footer_text">Support</a></li>
+                <li class="me-3"><a class="footer_text">Contact: <span class="num">+996 559 717 933</span></a></li>
+            </ul>
+        </div>
+
+        <ul class=" col-lg-6 col-md-6  justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-body-secondary" href="#">
+                <i class="bi bi-facebook text-white fs-4"></i>
+            </a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#">
+                <i class="bi bi-instagram text-white fs-4"></i>
+            </a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#">
+                <i class="bi bi-twitter text-white fs-4"></i>
+            </a></li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal fade" id="addGoods" tabindex="-1" aria-labelledby="addGoodsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addGoodsLabel">Add goods</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" th:each="distributor:${distributors}">
+                <form th:action="@{/api/v1/admin/goods/create/{distributor_id}(distributor_id = ${distributor.getId()})}"
+                      enctype="multipart/form-data" method="POST">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="goods-name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea class="form-control" id="goods-description" name="description"> </textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="address">Price:</label>
+                                <input type="number" class="form-control" id="goods-address" name="price">
+                            </div>
+                            <div class="form-group">
+                                <label for="file">File:</label>
+                                <input type="file" class="form-control form-control-sm" id="goods-file"
+                                       aria-describedby="file"
+                                       aria-label="Upload" name="image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="logout-btn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="logout-btn">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

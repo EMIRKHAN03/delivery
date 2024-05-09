@@ -1,0 +1,238 @@
+
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deliver</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/style.css" th:href="@{/css/style.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+
+
+<header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white" id="mainNav">
+        <div class="container">
+            <div class="brand">
+                <a class="navbar-brand">Delivery</a>
+                <img src="/images/pic.png">
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" th:href="@{/api/v1/}" id="ServiceDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Services
+                            </a>
+
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" th:href="@{/api/v1/distributor/all}" id="MenuDropdown" >
+                                Menu
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-black" href="#">Account</a></li>
+                    </ul>
+                </div>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+                    <a th:href="@{/auth/login}" class="logout-btn" type="submit"><i class="bi bi-box-arrow-in-right me-2"></i>Logout
+                    </a>
+                </form>
+
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<main>
+
+    <div class="container mt-3">
+        <p class="text-black fs-3 fw-bolder text-lg-start  text-center">Delivery man</p>
+        <hr class="hr">
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <!--               Delivery list-->
+                <p class="title_text">Delivery list</p>
+                <div>
+                    <div class="list mb-5" th:each="zakaz:${zakazList}">
+                        <div class="">
+                            <p class="name">Address: <span th:text="${zakaz.getAddress()}"></span></p>
+                            <p class="price">Quantity: <span th:text="${zakaz.getQuantity()}"></span></p>
+                            <p class="price">Date: <span th:text="${zakaz.getDate()}"></span></p>
+                            <p class="price">Total price: <span th:text="${zakaz.getTotalPrice()}"></span> сом</p>
+                            <p class="price">Delivery price: <span th:text="${zakaz.getDeliveryPrice()}"></span> сом</p>
+                            <p class="price">Payment way is: <span th:text="${zakaz.getPayment()}"></span></p>
+                            <p class="price">Restaraunt address is: <span th:text="${zakaz.getAddress()}"></span></p>
+                        </div>
+                        <h4>Goods:</h4>
+                        <div class="" th:each="zakazgood:${zakazGoodService.findByZakaz(zakaz)}">
+                            <p class="name">Name: <span th:text="${zakazgood.getGoods().getName()}"></span></p>
+                            <p class="price">Price: <span th:text="${zakazgood.getGoods().getPrice()}"></span>сом</p>
+                        </div>
+                        <form th:action="@{/api/v1/authenticated/deliver/take/zakaz/{zakaz_id}(zakaz_id=${zakaz.getId()})}" method="POST">
+                            <button type="submit" class="logout-btn">Approve!</button>
+                        </form>
+                    </div>
+                </div>
+                <!--               Delivery list end-->
+
+
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <!--               My orders-->
+                <div class=" mt-4 mt-lg-0">
+                    <p class="title_text">My orders</p>
+                    <div class="list mb-5" th:each="zakaz:${myZakazlist}">
+                        <div class="">
+                            <p class="name">Address: <span th:text="${zakaz.getAddress()}"></span></p>
+                            <p class="price">Quantity: <span th:text="${zakaz.getQuantity()}"></span></p>
+                            <p class="price">Date: <span th:text="${zakaz.getDate()}"></span></p>
+                            <p class="price">Total price: <span th:text="${zakaz.getTotalPrice()}"></span>$</p>
+                            <p class="price">Delivery price: <span th:text="${zakaz.getDeliveryPrice()}"></span>$</p>
+                            <p class="price">Payment way is: <span th:text="${zakaz.getPayment()}"></span></p>
+                            <p class="price">Status: <span th:text="${zakaz.getZakazStatus()}"></span></p>
+                        </div>
+                        <h4>Goods:</h4>
+                        <div class="" th:each="zakazgood:${zakazGoodService.findByZakaz(zakaz)}">
+                            <p class="name">Id: <span th:text="${zakazgood.getGoods().getId()}"></span></p>
+                            <p class="name">Name: <span th:text="${zakazgood.getGoods().getName()}"></span></p>
+                            <p class="name">Price: <span th:text="${zakazgood.getGoods().getPrice()}"></span></p>
+                            <p class="price">Count: <span th:text="${ zakazGoodService.countByGoodsAndZakaz(zakazgood.getGoods(),zakaz)}"></span></p>
+                        </div>
+
+
+                        <form th:action="@{/api/v1/authenticated/deliver/deliver/{zakaz_id}(zakaz_id=${zakaz.getId()})}" method="POST">
+                            <button type="submit" class="bg-success logout-btn">Deliver!</button>
+                        </form>
+                        <form th:action="@{/api/v1/authenticated/deliver/decline/{zakaz_id}(zakaz_id=${zakaz.getId()})}" method="POST">
+                            <button type="submit" class="logout-btn bg-danger">Reject!</button>
+                        </form>
+
+                    </div>
+
+
+                </div>
+                <!--               My orders end-->
+
+                <!--                My info-->
+
+                <div class="mt-5">
+                    <form action="">
+                        <!--                        name-->
+                        <p class="title_text">Name</p>
+                        <div class="list" th:text="${client.getName()}"></div>
+
+                        <!--                        Name end-->
+                        <!--                   Username-->
+                        <p class="title_text">Username</p>
+                        <div class="list" th:text="${client.getUsername()}"></div>
+
+                        <!--                   Username end-->
+
+                        <!--                   Salary-->
+                        <p class="title_text mt-3">Salary</p>
+                        <div class="list" th:text="${salary +' сом'}"></div>
+
+                        <!--                   Salary end-->
+
+
+                        <!-- Role-->
+                        <p class="title_text mt-3">Role</p>
+                        <div class="list" th:text="${client.getRoles()}"></div>
+                        <!--Role end-->
+                    </form>
+                </div>
+
+                <!--                My info end-->
+
+
+            </div>
+
+            <!--                Deliverd-->
+            <div class=" mt-4 mt-lg-0">
+                <p class="title_text">Delivered</p>
+                <div class="table_overflow">
+                    <table class="table">
+                        <tr>
+                            <th>Address</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
+                            <th>Total price</th>
+                            <th>Delivery price</th>
+                            <th>Payment way is</th>
+                            <th>Status</th>
+
+                        </tr>
+                        <tr th:each="zakaz:${zakazList1}">
+                            <td th:text="${zakaz.getAddress()}"></td>
+                            <td th:text="${zakaz.getQuantity()}"></td>
+                            <td th:text="${zakaz.getDate()}"></td>
+                            <td th:text="${zakaz.getTotalPrice()}"></td>
+                            <td th:text="${zakaz.getDeliveryPrice()}"></td>
+                            <td th:text="${zakaz.getPayment()}"></td>
+                            <td th:text="${zakaz.getZakazStatus()}"></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+
+            </div>
+            <!--                Deliverd end-->
+        </div>
+    </div>
+
+
+</main>
+
+
+<footer class="py-4 mt-5">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+        <div class="col-lg-6 col-md-6  d-flex align-items-center">
+            <a class="navbar-brand" href="#">Delivery</a>
+            <img src="/images/pic.png">
+
+            <ul class="ul_list d-sm-block d-lg-flex d-md-flex d-xl-flex d-xxl-flex align-items-center">
+                <li class="me-3"><a href="#" class="footer_text">About</a></li>
+                <li class="me-3"><a href="#" class="footer_text">Delivery</a></li>
+                <li class="me-3"><a href="#" class="footer_text">Support</a></li>
+                <li class="me-3"><a class="footer_text">Contact: <span class="num">+996 559 717 933</span></a></li>
+            </ul>
+        </div>
+
+        <ul class=" col-lg-6 col-md-6  justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-body-secondary" href="#">
+                <i class="bi bi-facebook text-white fs-4"></i>
+            </a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#">
+                <i class="bi bi-instagram text-white fs-4"></i>
+            </a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#">
+                <i class="bi bi-twitter text-white fs-4"></i>
+            </a></li>
+        </ul>
+    </div>
+</footer>
+
+
+</body>
+</html>

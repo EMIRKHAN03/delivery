@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/static/css/personal_area.css" th:href="@{/css/personal_area.css}" />
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/static/css/personal_area.css" th:href="@{/css/card.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+
+<div class="div17">
+    <div class="nav-header1">
+        <div class="component-11">
+            <div class="component-1-inner"></div>
+            <div class="search1">Find</div>
+            <img class="vector-icon12" alt="" src="/images/vector.svg" />
+
+            <div class="line-div"></div>
+        </div>
+        <div class="delivery2" id="deliveryText">Delivery</div>
+        <div class="paper-plane-11"></div>
+        <img class="nav-header-item" alt="" src="/images/vector-2.svg" />
+    </div>
+    <div class="navigation-bar1">
+        <div class="account2">
+            <p class="account3">Account</p>
+        </div>
+        <div class="services-group">
+            <div class="services1">Services</div>
+            <img
+                    class="akar-iconschevron-down3"
+                    alt=""
+                    src="/images/akariconschevrondown2.svg"
+            />
+        </div>
+        <div class="menu-group">
+            <div class="services1">Menu</div>
+            <img
+                    class="akar-iconschevron-down3"
+                    alt=""
+                    src="/images/akariconschevrondown2.svg"
+            />
+        </div>
+    </div>
+    <div class="akar-iconschevron-down5"></div>
+    <div class="inner1">
+        <div class="carbonlogin-group">
+            <img
+                    class="carbonlogin-icon1"
+                    alt=""
+                    src="/images/carbonlogin.svg"
+            />
+
+            <div class="logout">Login</div>
+        </div>
+    </div>
+    <img
+            class="converted-2-icon2"
+            alt=""
+            src="/images/17372-converted-2@2x.png"
+    />
+
+    <div class="vector-parent3">
+        <img class="vector-icon13" alt="" src="/images/vector9.svg" />
+
+        <div class="div18">Адрес доставки</div>
+    </div>
+    <div class="container">
+        <div class="div18">Личный кабинет</div>
+    </div>
+    <div class="footer1">
+        <div class="delivery3">Delivery</div>
+        <img
+                class="converted-2-icon3"
+                alt=""
+                src="/images/17372-converted-2@2x.png"
+        />
+
+        <div class="group">
+            <div class="div20">О нас</div>
+            <div class="div20">Доставка</div>
+            <div class="div20">Поддержка</div>
+        </div>
+        <div class="contact-group">
+            <div class="div20">Contact:</div>
+            <b class="b4">+996 559 717 933</b>
+        </div>
+    </div>
+    <div class="inner2">
+        <div class="carbonlogin-container">
+            <img
+                    class="carbonlogin-icon1"
+                    alt=""
+                    src="/images/carbonlogin.svg"
+            />
+
+            <div class="logout">Logout</div>
+        </div>
+    </div>
+
+    <div class="avatar-upload">
+        <div class="avatar-edit">
+            <form th:action="@{/api/v1/authenticated/client/change/photo/{client_id}(client_id=${client.getId()})}"  enctype="multipart/form-data" method="POST">
+                <input type="file" id ="photo" accept=".png, .jpg, .jpeg" name = "image">
+                <label for="photo"><i class="fa fa-pen-to-square"></i></label>
+                <button type="submit" class="photoChange">Change photo</button>
+            </form>
+
+        </div>
+        <div class="avatar-preview">
+            <div id="imagePreview">
+                <img  class="photo" th:src="@{/{image}(image=${client.getPhoto()})}">
+            </div>
+        </div>
+        <div th:if="${!request.isEmpty()}" style="position: absolute;top: 210px;left: 17px;">
+            <h2 th:text="${request.get().getRequestStatus()}">
+            </h2>
+        </div>
+
+        <form th:action="@{/api/v1/authenticated/client/request/{client_id}(client_id=${client.getId()})}" method="POST">
+            <button type="submit" class="requestChange">Request!</button>
+        </form>
+
+    </div>
+
+    <form th:action="@{/api/v1/authenticated/client/edit/{client_id}(client_id=${client.getId()})}"  enctype="multipart/form-data" method="POST">
+        <div class="child5"></div>
+        <div class="child6 "></div>
+        <div class="child7"></div>
+        <div class="child8"></div>
+        <div class="child9"></div>
+        <div class="child10"></div>
+        <div class="div24">Имя</div>
+        <div class="div25">Логин</div>
+        <div class="div26">Пароль</div>
+        <div class="div27">Номер телефона</div>
+        <input class="div28" type="text" id="firstName" name="name" th:placeholder="${client.getName()}" >
+        <input class="djuratgmailcom" type="text" id="username1" th:placeholder="${client.getUsername()}" name="username">
+        <div class="div29">2281337</div>
+        <input class="div30" type="text" id="number" name="number" th:placeholder="${client.getNumber()}" >
+        <div class="div31">Лебединовка,Комсомольская 73</div>
+        <div class="div32">Способ оплаты</div>
+        <img
+                class="mdicredit-card-add-icon"
+                alt=""
+                src="/images/mdicreditcardadd.svg"
+        />
+        <button class="services1 frame" type="submit">Сохранить изменения</button>
+    </form>
+    <div class="div33" id="mainDiv">Добавить новую карту</div>
+    <div class="div57" >
+        <div class="block" th:if="${!ecard.isEmpty()}">
+            <div class="backgound">
+                <div class="left"></div>
+                <div class="right">
+                    <div class="strip-bottom"></div>
+                    <div class="strip-top"></div>
+                </div>
+            </div>
+            <div class="center">
+                <div class="card">
+                    <div class="flip">
+                        <div class="front">
+                            <div class="strip-bottom"></div>
+                            <div class="strip-top"></div>
+                            <svg class="logo" width="40" height="40" viewbox="0 0 17.5 16.2">
+                                <path d="M3.2 0l5.4 5.6L14.3 0l3.2 3v9L13 16.2V7.8l-4.4 4.1L4.5 8v8.2L0 12V3l3.2-3z" fill="white"></path>
+                            </svg>
+                            <div class="investor" th:text="${ecard.get().getBankName()}">Investor</div>
+                            <div class="chip">
+
+                                <div class="chip-line"></div>
+                                <div class="chip-line"></div>
+                                <div class="chip-line"></div>
+                                <div class="chip-line"></div>
+                                <div class="chip-main"></div>
+                            </div>
+                            <svg class="wave" viewBox="0 3.71 26.959 38.787" width="26.959" height="38.787" fill="white">
+                                <path d="M19.709 3.719c.266.043.5.187.656.406 4.125 5.207 6.594 11.781 6.594 18.938 0 7.156-2.469 13.73-6.594 18.937-.195.336-.57.531-.957.492a.9946.9946 0 0 1-.851-.66c-.129-.367-.035-.777.246-1.051 3.855-4.867 6.156-11.023 6.156-17.718 0-6.696-2.301-12.852-6.156-17.719-.262-.317-.301-.762-.102-1.121.204-.36.602-.559 1.008-.504z"></path>
+                                <path d="M13.74 7.563c.231.039.442.164.594.343 3.508 4.059 5.625 9.371 5.625 15.157 0 5.785-2.113 11.097-5.625 15.156-.363.422-1 .472-1.422.109-.422-.363-.472-1-.109-1.422 3.211-3.711 5.156-8.551 5.156-13.843 0-5.293-1.949-10.133-5.156-13.844-.27-.309-.324-.75-.141-1.114.188-.367.578-.582.985-.542h.093z"></path>
+                                <path d="M7.584 11.438c.227.031.438.144.594.312 2.953 2.863 4.781 6.875 4.781 11.313 0 4.433-1.828 8.449-4.781 11.312-.398.387-1.035.383-1.422-.016-.387-.398-.383-1.035.016-1.421 2.582-2.504 4.187-5.993 4.187-9.875 0-3.883-1.605-7.372-4.187-9.875-.321-.282-.426-.739-.266-1.133.164-.395.559-.641.984-.617h.094zM1.178 15.531c.121.02.238.063.344.125 2.633 1.414 4.437 4.215 4.437 7.407 0 3.195-1.797 5.996-4.437 7.406-.492.258-1.102.07-1.36-.422-.257-.492-.07-1.102.422-1.359 2.012-1.075 3.375-3.176 3.375-5.625 0-2.446-1.371-4.551-3.375-5.625-.441-.204-.676-.692-.551-1.165.122-.468.567-.785 1.051-.742h.094z"></path>
+                            </svg>
+                            <div class="card-number">
+                                <div class="section"><p th:text="'INN '+ ${ecard.get().getInn()}"></p></div>
+
+                            </div>
+                            <div class="end"><span class="end-date" th:text=" 'Date ' + ${ecard.get().getLocalDate()}"></span></div>
+                            <div class="card-holder"th:text=" 'Owner  ' + ${ecard.get().getClient().getName()}"></div>
+                            <div class="master">
+                                <div class="circle master-red"></div>
+                                <div class="circle master-yellow"></div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div class="strip-black"></div>
+                            <div class="ccv">
+                                <label>ccv</label>
+                                <div th:text="${ecard.get().getCsv()}">123</div>
+                            </div>
+                            <div class="terms">
+                                <p>This card is property of Monzo Bank, Wonderland. Misuse is criminal offence. If found, please return to Monzo Bank or to the nearest bank with MasterCard logo.</p>
+                                <p>Use of this card is subject to the credit card agreement.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div  th:unless="${!ecard.isEmpty()}" id="hiddenDiv" class="main">
+            <form th:action="@{/api/v1/card/add/card}"  enctype="multipart/form-data" method="POST">
+                <div class="pay">
+
+                    <button class="toggle-button" type="submit">Add card</button>
+                    <input type="radio" class="toggle-checkbox" id="payment-type-credit-card" checked="checked" name="payment-methods">
+
+                    <div class="payment-info credit-card flip-container">
+                        <label for="card-flip" class="toggle-label">Flip Card <i class="fa fa-repeat"></i></label>
+                        <input type="checkbox" class="toggle-checkbox" id="card-flip">
+                        <div class="flip">
+                            <div class="front">
+                                <h1>Credit Card</h1>
+                                <i class="fa fa-credit-card-alt symbol"></i>
+                                <div class="numbers">
+                                    <input placeholder="INN" type="text" name="inn" class="numbers-1" maxlength="12">
+                                </div>
+                                <input type="text" id="firstName2" name="bankName" class="name" placeholder="Bank Name">
+                                <div class="expiration">
+                                    <h2>Expiration</h2>
+                                    <input type="date" style="color: white;font-size: 18px;" id="number2" name="date" >
+                                </div>
+                            </div>
+                            <div class="back">
+                                <div class="strip"></div>
+                                <div class="signature">
+                                    <div class="ccv">
+                                        <input type="text" class="cvv" maxlength="3" placeholder="CVV / Security Code">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--                <form th:action="@{/api/v1/authenticated/client/edit/{client_id}(client_id=${client.getId()})}"  enctype="multipart/form-data" method="POST">-->
+        <!--                    <button class="services1 frame" type="submit">Сохранить изменения</button>-->
+        <!--                </form>-->
+
+        <div class="facebook-icon-group">
+            <img class="facebook-icon1" alt="" src="/images/facebook-icon.svg" />
+
+            <img class="vector-icon14" alt="" src="/images/vector8.svg" />
+
+            <img class="twitter-icon1" alt="" src="/images/twitter-icon1.svg" />
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript" th:src="@{/js/carta.js}"></script>
+</body>
+</html>
